@@ -14,10 +14,10 @@
 
 #include <chrono>
 #include <memory>
+#include <ctime>
 
 #include "rclcpp/rclcpp.hpp"
-//#include "std_msgs/msg/string.hpp"
-#include "std_msgs/msg/int32_multi_array.hpp"
+#include "time_interface/msg/timestamp.hpp"
 
 using namespace std::chrono_literals;
 
@@ -30,9 +30,7 @@ public:
   MinimalPublisher()
   : Node("minimal_publisher"), count_(0)
   {
-    //publisher_ = this->create_publisher<std_msgs::msg::String>("topic", 10);
-    publisher_ = this->create_publisher<std_msgs::msg::Int32MultiArray>("topic1", 10);
-    // ("topic1", x)のxはbackup queue size
+    publisher_ = this->create_publisher<time_interface::msg::Timestamp>("topic", 10);
     timer_ = this->create_wall_timer(
       34ms, std::bind(&MinimalPublisher::timer_callback, this));
   }
@@ -40,26 +38,20 @@ public:
 private:
   void timer_callback()
   {
-    /*auto message = std_msgs::msg::String();
-    message.data = "Hello, world! " + std::to_string(count_++);
-    RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
-    publisher_->publish(message);*/
-    std_msgs::msg::Int32MultiArray array;
-    array.data.clear();
+    auto message = time_interface::msg::Timestamp();
     int array_size = 250;
-    //int32型が4byteなら250個でデータサイズ1KB
-    //int32型が4byteなら250000個でデータサイズ1MB
-    array.data.resize(array_size);
     for (int i = 0; i < array_size; i++) {
-      array.data[i]  = i;
+      message.array.push_back(i);
     }
-//    RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", "array");
-    publisher_->publish(array);
+    timespec ts;
+    timespec_get(&ts, TIME_UTC);
+    message.stime = static_cast<int64_t>(ts.tv_sec);
+    message.ntime = static_cast<int64_t>(ts.tv_nsec);
+    publisher_->publish(message);
 
   }
   rclcpp::TimerBase::SharedPtr timer_;
-  //rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
-  rclcpp::Publisher<std_msgs::msg::Int32MultiArray>::SharedPtr publisher_;
+  rclcpp::Publisher<time_interface::msg::Timestamp>::SharedPtr publisher_;
   size_t count_;
 };
 

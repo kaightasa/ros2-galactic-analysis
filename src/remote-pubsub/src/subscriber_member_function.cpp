@@ -13,11 +13,16 @@
 // limitations under the License.
 
 #include <memory>
+#include <ctime>
+#include <iostream>
+#include <fstream>
 
 #include "rclcpp/rclcpp.hpp"
-//#include "std_msgs/msg/string.hpp"
-#include "std_msgs/msg/int32_multi_array.hpp"
+#include "time_interface/msg/timestamp.hpp"
+
 using std::placeholders::_1;
+
+struct timespec end;
 
 class MinimalSubscriber : public rclcpp::Node
 {
@@ -25,27 +30,32 @@ public:
   MinimalSubscriber()
   : Node("minimal_subscriber")
   {
-    //subscription_ = this->create_subscription<std_msgs::msg::String>(
-    subscription_ = this->create_subscription<std_msgs::msg::Int32MultiArray>(
-      "topic1", 10, std::bind(&MinimalSubscriber::topic_callback, this, _1));
+    subscription_ = this->create_subscription<time_interface::msg::Timestamp>(
+      "topic", 10, std::bind(&MinimalSubscriber::topic_callback, this, _1));
   }
 
 private:
-  //void topic_callback(const std_msgs::msg::String::SharedPtr msg) const
-  void topic_callback(const std_msgs::msg::Int32MultiArray::SharedPtr array) const
+  void topic_callback(const time_interface::msg::Timestamp::SharedPtr msg) const
   {
-    //RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
-    //RCLCPP_INFO(this->get_logger(), "I heard: '%s'", "array");
-    int sum = 0;
-    int array_size = 250;
-    for (int i = 0; i < array_size; i++) {
-      sum += array->data[i];
+    timespec_get(&end, TIME_UTC);
+    time_t start_sec = msg->stime;
+    time_t start_nsec = static_cast<long>(msg->ntime);
+
+    long nsec;
+    int64_t sec;
+    if (start_nsec < end.tv_nsec) {
+      nsec = end.tv_nsec - start_nsec;
+      sec = end.tv_sec - start_sec;
+    } else {
+      nsec = 1000000000 + end.tv_nsec - start_nsec;
+      sec = end.tv_sec - start_sec - 1;
     }
-    //RCLCPP_INFO(this->get_logger(), "sum is: '%d'", sum);
-      
+    //RCLCPP_INFO(this->get_logger(), "%ld.%ld\n", sec, nsec);
+    std::ofstream outputfile("/home/asana/ros2-galactic-analysis/result/remote_pubsub/result.txt", std::ios::app);
+    outputfile << sec << "." << nsec << std::endl;
+    outputfile.close();
   }
-  //rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
-  rclcpp::Subscription<std_msgs::msg::Int32MultiArray>::SharedPtr subscription_;
+  rclcpp::Subscription<time_interface::msg::Timestamp>::SharedPtr subscription_;
 };
 
 int main(int argc, char * argv[])
