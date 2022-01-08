@@ -14,22 +14,19 @@ $ source ~/ros2-galactic-analysis/install/local_setup.zsh
 $ colcon build --packages-select remote_pubsub
 ```
 ## perf analysis initialization
-1. `$ perf_pubsub`
+1. `$ perf_pubsub`  
 to run this command, you need to set function below to .bashrc or .zshenv
 
 ```
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-function caret_pubsub() {
-  source ~/ros2_caret_ws/install/local_setup.zsh;
+function perf_pubsub() {
+  source ~/ros2_galactic/install/setup.zsh; # you need to build ros2 from source
   source ~/ros2-galactic-analysis/install/local_setup.zsh;
-  export LD_PRELOAD=$(readlink -f ~/ros2_caret_ws/install/caret_trace/lib/libcaret.so);
-  export CARET_IGNORE_NODES="/rviz*";
-  export CARET_IGNORE_TOPICS="/clock:/parameter_events";
 }
 
-export -f caret_pubsub # only need this for .bashrc
-alias caret_pubsub=caret_pubsub
+export -f perf_pubsub # only need this for .bashrc
+alias perf_pubsub=caret_pubsub
 ```
 
 ## remote pubsub initialization
@@ -45,9 +42,20 @@ System clock synchronized: yes
               NTP service: active
           RTC in local TZ: no
 ```
-2. run setup scripts.
+2. `remote_pubsub()`  
+to run this command, add function below to .bashrc or .zshenv
+```
+function remote_pubsub() {
+  source /opt/ros/galactic/setup.zsh;
+  source ~/ros2-galactic-analysis/install/local_setup.zsh;
+  export ROS_DOMAIN_ID=1;
+}
+
+alias remote_pubsub=remote_pubsub
+```
+3. run setup scripts.
 ## caret analysis initialization
-1. `$ caret_pubsub`
+1. `$ caret_pubsub`  
 to run this command, you need to set function below to .bashrc or .zshenv
 
 ```
