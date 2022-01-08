@@ -2,8 +2,8 @@
 
 # check argument
 if [ $# -ne 3 ]; then
-  echo "usage: loop_back_publisher_setup.zsh <queue num> <msg size> <freq> " 1>&2
-  echo "ex: loop_back_publisher_setup.zsh <10> <1KB> <30Hz>" 1>&2
+  echo "usage: loop_back_host_setup.zsh <queue num> <msg size> <freq> " 1>&2
+  echo "ex: loop_back_host_setup.zsh <10> <1KB> <30Hz>" 1>&2
   exit 1
 fi
 
@@ -11,7 +11,7 @@ cd ~/ros2-galactic-analysis
 
 # host publisher
 # set backup queue size
-sed -i "33c\    publisher_ = this->create_publisher<time_interface::msg::Timestamp>(\"topic\", $1);" src/loop_back/src/host_publisher_member_function.cpp
+sed -i "33c\    publisher_ = this->create_publisher<time_interface::msg::Timestamp>(\"topic1\", $1);" src/loop_back/src/host_publisher_member_function.cpp
 
 
 # set timer rate
