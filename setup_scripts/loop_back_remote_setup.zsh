@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+cd ~/ros2-galactic-analysis
+
 # check argument
 if [ $# -ne 2 ]; then
   echo "usage: loop_back_remote_setup.zsh <queue num> <msg size>" 1>&2

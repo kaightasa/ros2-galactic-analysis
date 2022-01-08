@@ -1,9 +1,11 @@
-#!/bin/bash
+#!/bin/zsh
+
+cd ~/ros2-galactic-analysis
 
 # check argument
 if [ $# -ne 3 ]; then
-  echo "usage: set_condition.bash <queue num> <msg size> <freq> " 1>&2
-  echo "ex: set_condition.bash <10> <1KB> <30Hz>" 1>&2
+  echo "usage: set_condition.zsh <queue num> <msg size> <freq> " 1>&2
+  echo "ex: set_condition.zsh <10> <1KB> <30Hz>" 1>&2
   exit 1
 fi
 

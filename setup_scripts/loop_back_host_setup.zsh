@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+cd ~/ros2-galactic-analysis
+
 # check argument
 if [ $# -ne 3 ]; then
   echo "usage: loop_back_host_setup.zsh <queue num> <msg size> <freq> " 1>&2
@@ -7,7 +9,6 @@ if [ $# -ne 3 ]; then
   exit 1
 fi
 
-cd ~/ros2-galactic-analysis
 
 # host publisher
 # set backup queue size

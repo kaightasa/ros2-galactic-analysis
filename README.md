@@ -111,8 +111,8 @@ jupyter-lab
 After this, use `architecture ipynb` and `analysis.ipynb`
 
 ### extra step: change variables
-1. use `set_condition.zsh` to change application variables
-2. source ros&caret `local_setup.zsh` and build
+1. use `setup_scripts/set_condition.zsh` to change application variables
+2. source ros&caret `setup_scripts/local_setup.zsh` and build
 ```
 source ~/ros2_caret_ws/install/setup.zsh
 colcon build --pakages-select pubsub

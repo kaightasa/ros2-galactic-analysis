@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/zsh
+
+cd ~/ros2-galactic-analysis
 
 # check argument
 if [ $# -ne 3 ]; then
