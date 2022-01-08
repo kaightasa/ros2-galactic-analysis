@@ -47,12 +47,12 @@ private:
       nsec = end.tv_nsec - start_nsec;
       sec = end.tv_sec - start_sec;
     } else {
-      nsec = 1000000000 + end.tv_nsec - start_nsec;
+      nsec = 1000*1000*1000 + end.tv_nsec - start_nsec;
       sec = end.tv_sec - start_sec - 1;
     }
     //RCLCPP_INFO(this->get_logger(), "%ld.%ld\n", sec, nsec);
     std::ofstream outputfile("/home/asana/ros2-galactic-analysis/result/remote_pubsub/result.txt", std::ios::app);
-    outputfile << sec << "." << nsec << std::endl;
+    outputfile << sec*1000*1000*1000 + nsec << std::endl;
     outputfile.close();
   }
   rclcpp::Subscription<time_interface::msg::Timestamp>::SharedPtr subscription_;
