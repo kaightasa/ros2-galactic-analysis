@@ -30,18 +30,27 @@ alias perf_pubsub=caret_pubsub
 ```
 
 ## remote pubsub initialization
-1. Check if ntp synchronization and timezone of two machines are matched.
-ex.
-```
-$ timedatectl status
-               Local time: Sat 2022-01-08 13:51:25 JST
-           Universal time: Sat 2022-01-08 04:51:25 UTC
-                 RTC time: Sat 2022-01-08 04:51:25
-                Time zone: Asia/Tokyo (JST, +0900)
-System clock synchronized: yes
-              NTP service: active
-          RTC in local TZ: no
-```
+1. synchronize time  
+ex. use chrony  
+    1. install chrony ` $ sudo apt install chrony`
+    2. modify server config `$ sudo vim /etc/chrony/chrony.conf`
+    ```
+    # comment out 'pool' and 'server' line
+    # add following lines
+    makestep 0.1 10
+    server ntp.nict.jp iburst prefer
+    ```
+    3. modify client config
+    ```
+    # comment out 'pool' and 'server' line
+    # add following lines
+    makestep 0.1 10
+    server <server ip address> iburst prefer
+    ```
+    4. confirm setting  
+    `$ chronyc sources`  
+    `$ sudo chronyc -a clients # on server`
+
 2. `remote_pubsub()`  
 to run this command, add function below to .bashrc or .zshenv
 ```
