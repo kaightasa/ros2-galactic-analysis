@@ -51,7 +51,7 @@ private:
       sec = end.tv_sec - start_sec - 1;
     }
     //RCLCPP_INFO(this->get_logger(), "%ld.%ld\n", sec, nsec);
-    std::ofstream outputfile("/home/asana/ros2-galactic-analysis/result/remote_pubsub/result.txt", std::ios::app);
+    std::ofstream outputfile("/home/bluebox/ros2-galactic-analysis/result/remote_pubsub/result.txt", std::ios::app);
     outputfile << sec*1000*1000*1000 + nsec << std::endl;
     outputfile.close();
   }
