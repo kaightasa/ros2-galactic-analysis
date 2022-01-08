@@ -1,3 +1,18 @@
+## build instruction
+### pubsub
+```
+$ source /opt/ros/galactic/setup.zsh
+$ rosdep install -i --from-path src --rosdistro galactic -y
+$ colcon build --packages-select pubsub
+```
+### remote_pubsub
+```
+$ source /opt/ros/galactic/setup.zsh
+$ rosdep install -i --from-path src --rosdistro galactic -y
+$ colcon build --packages-select time_interface
+$ source ~/ros2-galactic-analysis/install/local_setup.zsh
+$ colcon build --packages-select remote_pubsub
+```
 ## perf analysis initialization
 1. `$ perf_pubsub`
 to run this command, you need to set function below to .bashrc or .zshenv
@@ -24,15 +39,15 @@ ex.
 $ timedatectl status
                Local time: Sat 2022-01-08 13:51:25 JST
            Universal time: Sat 2022-01-08 04:51:25 UTC
-                 RTC time: Sat 2022-01-08 04:51:25    
-                Time zone: Asia/Tokyo (JST, +0900)    
-System clock synchronized: yes                        
-              NTP service: active                     
-          RTC in local TZ: no   
+                 RTC time: Sat 2022-01-08 04:51:25
+                Time zone: Asia/Tokyo (JST, +0900)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
 ```
 2. run setup scripts.
 ## caret analysis initialization
-1. `$ caret_pubsub`  
+1. `$ caret_pubsub`
 to run this command, you need to set function below to .bashrc or .zshenv
 
 ```
