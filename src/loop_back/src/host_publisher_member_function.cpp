@@ -39,7 +39,7 @@ private:
   void timer_callback()
   {
     auto message = time_interface::msg::Timestamp();
-    int array_size = 25000;
+    int array_size = 250;
     for (int i = 0; i < array_size; i++) {
       message.array.push_back(i);
     }

@@ -5,18 +5,17 @@ $ source /opt/ros/galactic/setup.zsh
 $ rosdep install -i --from-path src --rosdistro galactic -y
 $ colcon build --packages-select pubsub
 ```
-### remote_pubsub
+### remote_pubsub, loop_back
 ```
 $ source /opt/ros/galactic/setup.zsh
 $ rosdep install -i --from-path src --rosdistro galactic -y
 $ colcon build --packages-select time_interface
 $ source ~/ros2-galactic-analysis/install/local_setup.zsh
 $ colcon build --packages-select remote_pubsub
+$ colcon build --packages-select loop_back
 ```
-## perf analysis initialization
-1. `$ perf_pubsub`  
-to run this command, you need to set function below to .bashrc or .zshenv
-
+## environment setup
+to set up environment easily, you can add following functions to `.bashrc` or `.zshenv`
 ```
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
@@ -24,12 +23,41 @@ function perf_pubsub() {
   source ~/ros2_galactic/install/setup.zsh; # you need to build ros2 from source
   source ~/ros2-galactic-analysis/install/local_setup.zsh;
 }
-
 export -f perf_pubsub # only need this for .bashrc
-alias perf_pubsub=caret_pubsub
-```
+alias perf_pubsub=perf_pubsub
 
-## remote pubsub initialization
+function remote_pubsub() {
+  source /opt/ros/galactic/setup.zsh;
+  source ~/ros2-galactic-analysis/install/local_setup.zsh;
+  export ROS_DOMAIN_ID=1;
+}
+export -f remote_pubsub # only need this for .bashrc
+alias remote_pubsub=remote_pubsub
+
+function loop_back() {
+  source /opt/ros/galactic/setup.zsh;
+  source ~/ros2-galactic-analysis/install/local_setup.zsh;
+  export ROS_DOMAIN_ID=1;
+}
+export -f loop_back # only need this for .bashrc
+alias loop_back=loop_back
+
+function caret_pubsub() {
+  source ~/ros2_galactic/install/setup.zsh;
+  source ~/ros2_caret_ws/install/local_setup.zsh;
+  source ~/ros2-galactic-analysis/install/local_setup.zsh;
+  export LD_PRELOAD=$(readlink -f ~/ros2_caret_ws/install/caret_trace/lib/libcaret.so);
+  export caret_ignore_nodes="/rviz*";
+  export caret_ignore_topics="/clock:/parameter_events";
+}
+export -f caret_pubsub # only need this for .bashrc
+alias caret_pubsub=caret_pubsub
+
+```
+## perf analysis
+`$ perf_pubsub`
+
+## remote pubsub
 1. synchronize time  
 ex. use chrony  
     1. install chrony ` $ sudo apt install chrony`
@@ -52,38 +80,14 @@ ex. use chrony
     `$ sudo chronyc -a clients # on server`
 
 2. `remote_pubsub()`  
-to run this command, add function below to .bashrc or .zshenv
-```
-function remote_pubsub() {
-  source /opt/ros/galactic/setup.zsh;
-  source ~/ros2-galactic-analysis/install/local_setup.zsh;
-  export ROS_DOMAIN_ID=1;
-}
-
-alias remote_pubsub=remote_pubsub
-```
 3. run setup scripts.
-## caret analysis initialization
-1. `$ caret_pubsub`  
-to run this command, you need to set function below to .bashrc or .zshenv
 
-```
-export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+## loopback analysis initialization
+1. `$ loop_back`
+2. run setup scripts.
 
-function caret_pubsub() {
-  source ~/ros2_galactic/install/setup.zsh;
-  source ~/ros2_caret_ws/install/local_setup.zsh;
-  source ~/ros2-galactic-analysis/install/local_setup.zsh;
-  export LD_PRELOAD=$(readlink -f ~/ros2_caret_ws/install/caret_trace/lib/libcaret.so);
-  export CARET_IGNORE_NODES="/rviz*";
-  export CARET_IGNORE_TOPICS="/clock:/parameter_events";
-}
-
-export -f caret_pubsub # only need this for .bashrc
-alias caret_pubsub=caret_pubsub
-```
-
-## caret analysis memo
+## caret analysis
+initialize by `$ caret_pubsub`
 ### step1 get lttng data
 #### lttng session terminal
 ```

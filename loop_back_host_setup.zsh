@@ -60,7 +60,7 @@ rm -rf ./result/loop_back/result.txt
 dir=`pwd`
 mkdir -p ./result/loop_back
 touch ./result/loop_back/result.txt
-sed -i "54c\    std::ofstream outputfile(\"$dir/result/loop_back/result.txt\", std::ios::app);" src/remote_pubsub/src/subscriber_member_function.cpp
+sed -i "54c\    std::ofstream outputfile(\"$dir/result/loop_back/result.txt\", std::ios::app);" src/loop_back/src/host_subscriber_member_function.cpp
 
 
 echo "modified src, finish!"
