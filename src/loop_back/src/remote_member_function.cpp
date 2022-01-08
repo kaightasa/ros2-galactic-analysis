@@ -12,53 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <chrono>
 #include <memory>
-#include <ctime>
 
 #include "rclcpp/rclcpp.hpp"
 #include "time_interface/msg/timestamp.hpp"
 
-using namespace std::chrono_literals;
+using std::placeholders::_1;
 
-/* This example creates a subclass of Node and uses std::bind() to register a
- * member function as a callback from the timer. */
-
-class MinimalPublisher : public rclcpp::Node
+class LoopbackNode : public rclcpp::Node
 {
 public:
-  MinimalPublisher()
-  : Node("minimal_publisher"), count_(0)
+  LoopbackNode()
+  : Node("loopback_node")
   {
-    publisher_ = this->create_publisher<time_interface::msg::Timestamp>("topic", 10);
-    timer_ = this->create_wall_timer(
-      34ms, std::bind(&MinimalPublisher::timer_callback, this));
+    publisher_ = this->create_publisher<time_interface::msg::Timestamp>("topic2", 10);
+    subscription_ = this->create_subscription<time_interface::msg::Timestamp>(
+      "topic1", 10, std::bind(&LoopbackNode::topic_callback, this, _1));
   }
 
 private:
-  void timer_callback()
+  void topic_callback(const time_interface::msg::Timestamp::SharedPtr msg) const
   {
     auto message = time_interface::msg::Timestamp();
     int array_size = 25000;
-    for (int i = 0; i < array_size; i++) {
+    for (int i =0; i < array_size; i++) {
       message.array.push_back(i);
     }
-    timespec ts;
-    timespec_get(&ts, TIME_UTC);
-    message.stime = static_cast<int64_t>(ts.tv_sec);
-    message.ntime = static_cast<int64_t>(ts.tv_nsec);
+    message.stime = msg->stime;
+    message.ntime = msg->ntime;
     publisher_->publish(message);
-
   }
-  rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<time_interface::msg::Timestamp>::SharedPtr publisher_;
-  size_t count_;
+  rclcpp::Subscription<time_interface::msg::Timestamp>::SharedPtr subscription_;
 };
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<MinimalPublisher>());
+  rclcpp::spin(std::make_shared<LoopbackNode>());
   rclcpp::shutdown();
   return 0;
 }

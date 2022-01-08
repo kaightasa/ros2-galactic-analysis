@@ -30,7 +30,7 @@ public:
   MinimalPublisher()
   : Node("minimal_publisher"), count_(0)
   {
-    publisher_ = this->create_publisher<time_interface::msg::Timestamp>("topic", 10);
+    publisher_ = this->create_publisher<time_interface::msg::Timestamp>("topic1", 10);
     timer_ = this->create_wall_timer(
       34ms, std::bind(&MinimalPublisher::timer_callback, this));
   }
