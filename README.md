@@ -17,6 +17,20 @@ export -f caret_pubsub # only need this for .bashrc
 alias caret_pubsub=caret_pubsub
 ```
 
+## remote pubsub initialization
+1. Check if ntp synchronization and timezone of two machines are matched.
+ex.
+```
+$ timedatectl status
+               Local time: Sat 2022-01-08 13:51:25 JST
+           Universal time: Sat 2022-01-08 04:51:25 UTC
+                 RTC time: Sat 2022-01-08 04:51:25    
+                Time zone: Asia/Tokyo (JST, +0900)    
+System clock synchronized: yes                        
+              NTP service: active                     
+          RTC in local TZ: no   
+```
+2. run setup scripts.
 ## caret analysis initialization
 1. `$ caret_pubsub`  
 to run this command, you need to set function below to .bashrc or .zshenv
