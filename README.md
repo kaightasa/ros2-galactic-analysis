@@ -82,7 +82,7 @@ ex. use chrony
 2. `remote_pubsub()`  
 3. run setup scripts.
 
-## loopback analysis initialization
+## loopback analysis
 1. `$ loop_back`
 2. run setup scripts.
 

@@ -32,9 +32,9 @@ fi
 
 
 # set message size
-if [ "$2" = "100B" ]; then
-  sed -i "49c\    int array_size = 25;"  src/pubsub/src/publisher_member_function.cpp
-  sed -i "40c\    int array_size = 25;"  src/pubsub/src/subscriber_member_function.cpp
+if [ "$2" = "256B" ]; then
+  sed -i "49c\    int array_size = 64;"  src/pubsub/src/publisher_member_function.cpp
+  sed -i "40c\    int array_size = 64;"  src/pubsub/src/subscriber_member_function.cpp
 elif [ "$2" = "1KB" ]; then
   sed -i "49c\    int array_size = 250;"  src/pubsub/src/publisher_member_function.cpp
   sed -i "40c\    int array_size = 250;"  src/pubsub/src/subscriber_member_function.cpp
@@ -44,9 +44,18 @@ elif [ "$2" = "10KB" ]; then
 elif [ "$2" = "100KB" ]; then
   sed -i "49c\    int array_size = 25000;"  src/pubsub/src/publisher_member_function.cpp
   sed -i "40c\    int array_size = 25000;"  src/pubsub/src/subscriber_member_function.cpp
+elif [ "$2" = "500KB" ]; then
+  sed -i "49c\    int array_size = 125000;"  src/pubsub/src/publisher_member_function.cpp
+  sed -i "40c\    int array_size = 125000;"  src/pubsub/src/subscriber_member_function.cpp
 elif [ "$2" = "1MB" ]; then
   sed -i "49c\    int array_size = 250000;"  src/pubsub/src/publisher_member_function.cpp
   sed -i "40c\    int array_size = 250000;"  src/pubsub/src/subscriber_member_function.cpp
+elif [ "$2" = "2MB" ]; then
+  sed -i "49c\    int array_size = 500000;"  src/pubsub/src/publisher_member_function.cpp
+  sed -i "40c\    int array_size = 500000;"  src/pubsub/src/subscriber_member_function.cpp
+elif [ "$2" = "4MB" ]; then
+  sed -i "49c\    int array_size = 1000000;"  src/pubsub/src/publisher_member_function.cpp
+  sed -i "40c\    int array_size = 1000000;"  src/pubsub/src/subscriber_member_function.cpp
 elif [ "$2" = "10MB" ]; then
   sed -i "49c\    int array_size = 2500000;"  src/pubsub/src/publisher_member_function.cpp
   sed -i "40c\    int array_size = 2500000;"  src/pubsub/src/subscriber_member_function.cpp
@@ -57,7 +66,7 @@ elif [ "$2" = "1GB" ]; then
   sed -i "49c\    int array_size = 250000000;"  src/pubsub/src/publisher_member_function.cpp
   sed -i "40c\    int array_size = 250000000;"  src/pubsub/src/subscriber_member_function.cpp
 else
-  echo "choose message size from 100B ~ 1GB"
+  echo "invalid message size, choose from 256B, 1KB, 10KB, 100KB, 500KB, 1MB, 2MB, 4MB"
   exit 1
 fi
 
