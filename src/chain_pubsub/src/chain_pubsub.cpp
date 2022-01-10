@@ -93,6 +93,12 @@ public:
 private:
   void topic_callback(const std_msgs::msg::Int32MultiArray::SharedPtr msg) const
   {
+    int sum = 0;
+    int array_size = MESSAGE_ARRAY_SIZE;
+    for (int i = 0; i < array_size; i++) {
+      sum += msg->data[i];
+    }
+    //RCLCPP_INFO(this->get_logger(), "sum is: '%d'", sum);
   }
   rclcpp::Subscription<std_msgs::msg::Int32MultiArray>::SharedPtr subscription_;
 };
@@ -110,13 +116,13 @@ int main(int argc, char * argv[])
   std::string sub_topic_name;
   for (int i = 0; i < INTER_NODE_NUM; i++) {
     std::string node_name = "inter_node" + std::to_string(i);
-    sub_topic_name = "/topic" + std::to_string(i);
-    pub_topic_name = "/topic" + std::to_string(i+1);
+    sub_topic_name = "/topic" + std::to_string(i+1);
+    pub_topic_name = "/topic" + std::to_string(i+2);
     nodes.emplace_back(
       std::make_shared<InterNode>(node_name, sub_topic_name, pub_topic_name)
     );
   }
-  nodes.emplace_back(std::make_shared<MinimalPublisher>(pub_topic_name));
+  nodes.emplace_back(std::make_shared<MinimalSubscriber>(pub_topic_name));
 
 
   for (auto & node : nodes) {
