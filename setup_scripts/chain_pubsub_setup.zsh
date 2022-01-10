@@ -41,25 +41,25 @@ fi
 if [ "$2" = "256B" ]; then
   sed -i "23c\ #define MESSAGE_ARRAY_SIZE 64"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "1KB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 250;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 250;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "10KB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 2500;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 2500;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "100KB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 25000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 25000;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "500KB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 125000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 125000;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "1MB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 250000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 250000;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "2MB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 500000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 500000;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "4MB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 1000000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 1000000;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "10MB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 2500000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 2500000;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "100MB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 25000000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 25000000;"  src/chain_pubsub/src/chain_pubsub.cpp
 elif [ "$2" = "1GB" ]; then
-  sed -i "49c\ #define MESSAGE_ARRAY_SIZE 250000000;"  src/chain_pubsub/src/chain_pubsub.cpp
+  sed -i "23c\ #define MESSAGE_ARRAY_SIZE 250000000;"  src/chain_pubsub/src/chain_pubsub.cpp
 else
   echo "invalid message size, choose from 256B, 1KB, 10KB, 100KB, 500KB, 1MB, 2MB, 4MB"
   exit 1
