@@ -5,13 +5,18 @@ cd ~/ros2-galactic-analysis
 # check argument
 if [ $# -ne 3 ]; then
   echo "usage: set_condition.zsh <queue num> <msg size> <freq> " 1>&2
-  echo "ex: set_condition.zsh <10> <1KB> <30Hz>" 1>&2
+  echo "ex: set_condition.zsh 10 1KB 30Hz" 1>&2
   exit 1
 fi
 
 
 # set backup queue size
-sed -i "34c\    publisher_ = this->create_publisher<std_msgs::msg::Int32MultiArray>(\"topic1\", $1);" src/pubsub/src/publisher_member_function.cpp
+if [[ "$1" =~ ^[0-9]+$ ]]; then
+  sed -i "34c\    publisher_ = this->create_publisher<std_msgs::msg::Int32MultiArray>(\"topic1\", $1);" src/pubsub/src/publisher_member_function.cpp
+else
+  echo "use number for queue num. you set \"$1\"" 1>&2
+  exit 1
+fi
 
 
 # set timer rate
@@ -26,7 +31,7 @@ elif [ "$3" = "30Hz" ]; then
 elif [ "$3" = "100Hz" ]; then
   sed -i "37c\      10ms, std::bind(&MinimalPublisher::timer_callback, this));" src/pubsub/src/publisher_member_function.cpp
 else
-  echo "choose frequency from 1Hz, 2Hz, 10Hz, 30Hz, 50Hz"
+  echo "choose frequency from 1Hz, 2Hz, 10Hz, 30Hz, 100Hz"
   exit 1
 fi
 

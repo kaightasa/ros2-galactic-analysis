@@ -33,14 +33,8 @@ public:
 private:
   void topic_callback(const time_interface::msg::Timestamp::SharedPtr msg) const
   {
-    auto message = time_interface::msg::Timestamp();
-    int array_size = 25000;
-    for (int i =0; i < array_size; i++) {
-      message.array.push_back(i);
-    }
-    message.stime = msg->stime;
-    message.ntime = msg->ntime;
-    publisher_->publish(message);
+    auto message = std::move(msg);
+    publisher_->publish(*message);
   }
   rclcpp::Publisher<time_interface::msg::Timestamp>::SharedPtr publisher_;
   rclcpp::Subscription<time_interface::msg::Timestamp>::SharedPtr subscription_;
