@@ -37,7 +37,7 @@ private:
     //RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
     //RCLCPP_INFO(this->get_logger(), "I heard: '%s'", "array");
     int sum = 0;
-    int array_size = 250;
+    int array_size = 64;
     for (int i = 0; i < array_size; i++) {
       sum += array->data[i];
     }

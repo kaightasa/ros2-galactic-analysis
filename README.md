@@ -22,7 +22,7 @@ function rmw_cyclonedds() {
   export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 }
 export -f rmw_cyclonedds()# only need this for .bashrc
-alias rmw_cyclone=rmw_cyclone
+alias rmw_cyclonedds=rmw_cyclonedds
 
 function rmw_fastrtps() {
   export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
@@ -55,7 +55,7 @@ alias remote_pubsub=remote_pubsub
 alias loop_back=remote_pubsub
 
 function caret_analysis() {
-  source ~/ros2_galactic/install/setup.zsh;
+  source /opt/ros/galactic/setup.zsh;
   source ~/ros2_caret_ws/install/local_setup.zsh;
   source ~/ros2-galactic-analysis/install/local_setup.zsh;
   export LD_PRELOAD=$(readlink -f ~/ros2_caret_ws/install/caret_trace/lib/libcaret.so);
@@ -110,8 +110,8 @@ get loopback latency between two different machines.
 3. outputs (latency [ns]) are in a configured directory.
 
 ## caret analysis
-latency analysis using caret.
-initialize by `$ caret_pubsub`
+latency analysis using caret.  
+initialize by `$ caret_analysis`
 
 ### build
 to use caret, you need to rebuild application with caret sources.
@@ -153,3 +153,10 @@ source ~/ros2_caret_ws/install/setup.zsh
 colcon build --packages-select pubsub
 ```
 3. when analyze data, don't forget to restart jupyter kernel
+
+#### caret environment setup
+- need some additional package installlation for my environment.
+    ```
+    python3 -m pip install -U \
+      tqdm
+  ```

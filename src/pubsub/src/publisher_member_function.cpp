@@ -46,7 +46,7 @@ private:
     publisher_->publish(message);*/
     std_msgs::msg::Int32MultiArray array;
     array.data.clear();
-    int array_size = 250;
+    int array_size = 64;
     //int32型が4byteなら250個でデータサイズ1KB
     //int32型が4byteなら250000個でデータサイズ1MB
     array.data.resize(array_size);

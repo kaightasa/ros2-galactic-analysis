@@ -20,8 +20,8 @@
 #include "std_msgs/msg/int32_multi_array.hpp"
 
  #define QOS_HISTORY_SIZE 10
- #define MESSAGE_ARRAY_SIZE 250;
- #define INTER_NODE_NUM 3
+ #define MESSAGE_ARRAY_SIZE 500000;
+ #define INTER_NODE_NUM 5
 
 using namespace std::chrono_literals;
 
