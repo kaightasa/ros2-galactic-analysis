@@ -3,6 +3,9 @@
 /install/
 /evaluate/
 /result/
+/graph_scripts/
 /jupyter-htmls/
 /.ipynb_checkpoints/
 /src/launch/__pycache__/
+/.cache/
+/.clang-format
